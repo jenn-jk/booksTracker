@@ -1,3 +1,4 @@
+import 'package:books_tracker/network.dart';
 import 'package:books_tracker/pages/favorites_page.dart';
 import 'package:books_tracker/pages/home_page.dart';
 import 'package:books_tracker/pages/saved_page.dart';
@@ -33,6 +34,15 @@ class MyHome extends StatefulWidget {
 
 class _MyHomeState extends State<MyHome> {
   int _currentSelectedItem = 0;
+  final String _query = "The Shining";
+  Network network = Network();
+
+  @override
+  void initState() {
+    network.getBooks(_query);
+    super.initState();
+  }
+
   final List<Widget> _pages = [HomePage(), SavedPage(), FavoritesPage()];
   @override
   Widget build(BuildContext context) {
