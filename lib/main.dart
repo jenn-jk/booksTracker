@@ -1,3 +1,4 @@
+import 'package:books_tracker/models/book.dart';
 import 'package:books_tracker/network.dart';
 import 'package:books_tracker/pages/favorites_page.dart';
 import 'package:books_tracker/pages/home_page.dart';
@@ -37,9 +38,20 @@ class _MyHomeState extends State<MyHome> {
   final String _query = "The Shining";
   Network network = Network();
 
+  void searchBooks(String _query) async {
+    try {
+      List<Book> books = await network.getBooks(_query);
+      for (Book book in books) {
+        print(book);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   void initState() {
-    network.getBooks(_query);
+    searchBooks(_query);
     super.initState();
   }
 
