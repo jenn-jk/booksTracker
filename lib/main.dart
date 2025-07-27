@@ -1,5 +1,3 @@
-import 'package:books_tracker/models/book.dart';
-import 'package:books_tracker/network.dart';
 import 'package:books_tracker/pages/favorites_page.dart';
 import 'package:books_tracker/pages/home_page.dart';
 import 'package:books_tracker/pages/saved_page.dart';
@@ -35,34 +33,15 @@ class MyHome extends StatefulWidget {
 
 class _MyHomeState extends State<MyHome> {
   int _currentSelectedItem = 0;
-  final String _query = "The Shining";
-  Network network = Network();
-
-  void searchBooks(String _query) async {
-    try {
-      List<Book> books = await network.getBooks(_query);
-      for (Book book in books) {
-        print(book);
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  @override
-  void initState() {
-    searchBooks(_query);
-    super.initState();
-  }
 
   final List<Widget> _pages = [HomePage(), SavedPage(), FavoritesPage()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text("Books Tracker"),
-      //   backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      // ),
+      appBar: AppBar(
+        title: Text("Books Tracker"),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+      ),
       body: _pages[_currentSelectedItem],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentSelectedItem,
