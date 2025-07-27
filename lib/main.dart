@@ -1,3 +1,4 @@
+import 'package:books_tracker/pages/book_details.dart';
 import 'package:books_tracker/pages/favorites_page.dart';
 import 'package:books_tracker/pages/home_page.dart';
 import 'package:books_tracker/pages/saved_page.dart';
@@ -19,6 +20,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.pinkAccent),
       ),
+      initialRoute: '/',
+      routes: {
+        "/home": ((context) => HomePage()),
+        "/saved": ((context) => SavedPage()),
+        "/favorites": ((context) => FavoritesPage()),
+        "/bookdetails": ((context) => BookDetails()),
+      },
       home: const MyHome(),
     );
   }
