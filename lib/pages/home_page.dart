@@ -1,6 +1,6 @@
 import 'package:books_tracker/models/book.dart';
 import 'package:books_tracker/network.dart';
-import 'package:books_tracker/pages/book_details.dart';
+import 'package:books_tracker/utils/book_details_arguments.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -62,7 +62,11 @@ class _HomePageState extends State<HomePage> {
                     ),
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, "/bookdetails");
+                        Navigator.pushNamed(
+                          context,
+                          "/bookdetails",
+                          arguments: BookDetailsArguments(itemBook: book),
+                        );
                       },
                       child: Column(
                         children: [
