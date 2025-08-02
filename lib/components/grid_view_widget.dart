@@ -3,10 +3,7 @@ import 'package:books_tracker/utils/book_details_arguments.dart';
 import 'package:flutter/material.dart';
 
 class GridViewWidget extends StatelessWidget {
-  const GridViewWidget({
-    super.key,
-    required List<Book> books,
-  }) : _books = books;
+  const GridViewWidget({super.key, required List<Book> books}) : _books = books;
 
   final List<Book> _books;
 
@@ -39,6 +36,7 @@ class GridViewWidget extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(6.0),
                     child: Image.network(
+                      scale: 0.8,
                       book.imageLinks["thumbnail"]?.replaceFirst(
                             "http://",
                             "https://",

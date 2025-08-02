@@ -46,6 +46,39 @@ class _BookDetailsState extends State<BookDetails> {
                   Text("Language: ${book.language}", style: theme.bodySmall),
                 ],
               ),
+              SizedBox(height: 5),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton.icon(
+                    icon: Icon(Icons.save),
+                    onPressed: () => {},
+                    label: Text("Save"),
+                  ),
+                  ElevatedButton.icon(
+                    icon: Icon(Icons.favorite),
+                    onPressed: () => {},
+                    label: Text("Favorite"),
+                  ),
+                ],
+              ),
+              SizedBox(height: 10),
+              Text("Description", style: theme.titleMedium),
+              SizedBox(height: 5),
+              Container(
+                margin: EdgeInsets.all(10),
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.secondary.withOpacity(0.1),
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  border: Border.all(
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
+                ),
+                child: Text(book.description),
+              ),
             ],
           ),
         ),
