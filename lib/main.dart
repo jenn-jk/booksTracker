@@ -1,4 +1,5 @@
 import 'package:books_tracker/pages/book_details.dart';
+import 'package:books_tracker/pages/db.dart';
 import 'package:books_tracker/pages/favorites_page.dart';
 import 'package:books_tracker/pages/home_page.dart';
 import 'package:books_tracker/pages/saved_page.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
         "/saved": ((context) => SavedPage()),
         "/favorites": ((context) => FavoritesPage()),
         "/bookdetails": ((context) => BookDetails()),
+        "/database": ((context) => DB())
       },
       home: const MyHome(),
     );
@@ -42,7 +44,7 @@ class MyHome extends StatefulWidget {
 class _MyHomeState extends State<MyHome> {
   int _currentSelectedItem = 0;
 
-  final List<Widget> _pages = [HomePage(), SavedPage(), FavoritesPage()];
+  final List<Widget> _pages = [HomePage(), SavedPage(), FavoritesPage(), DB()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,8 +63,9 @@ class _MyHomeState extends State<MyHome> {
             icon: Icon(Icons.favorite),
             label: "Favorites",
           ),
+          BottomNavigationBarItem(icon: Icon(Icons.cyclone), label: "Database"),
         ],
-        selectedItemColor: Theme.of(context).colorScheme.onPrimary,
+        selectedItemColor: Theme.of(context).colorScheme.primary,
         unselectedItemColor: Theme.of(context).colorScheme.onSurface,
         onTap: (value) => {
           setState(() {

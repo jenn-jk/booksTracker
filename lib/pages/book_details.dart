@@ -1,3 +1,4 @@
+import 'package:books_tracker/database/database_helper.dart';
 import 'package:books_tracker/models/book.dart';
 import 'package:books_tracker/utils/book_details_arguments.dart';
 import 'package:flutter/material.dart';
@@ -52,12 +53,32 @@ class _BookDetailsState extends State<BookDetails> {
                 children: [
                   ElevatedButton.icon(
                     icon: Icon(Icons.save),
-                    onPressed: () => {},
+                    onPressed: () async {
+                      try {
+                        int bookNum = await DatabaseHelper.instance.insert(
+                          book,
+                        );
+                        SnackBar snackBar = SnackBar(
+                          content: Text("Book Saved $bookNum"),
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      } catch (e, stackTrace) {
+                        print("Error: $e");
+                        print("Staketrace: $stackTrace");
+                      }
+                    },
                     label: Text("Save"),
                   ),
                   ElevatedButton.icon(
                     icon: Icon(Icons.favorite),
-                    onPressed: () => {},
+                    onPressed: () async {
+                      await DatabaseHelper.instance.readAll().then(
+                        (books) => {
+                          for (var book in books)
+                            {print("Title: ${book.title}")},
+                        },
+                      );
+                    },
                     label: Text("Favorite"),
                   ),
                 ],

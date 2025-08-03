@@ -1,4 +1,3 @@
-import 'package:books_tracker/main.dart';
 import 'package:books_tracker/models/book.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -22,16 +21,19 @@ class DatabaseHelper {
     return _database!;
   }
 
-  _initDatabase() async {
+  Future<Database> _initDatabase() async {
     String path = join(await getDatabasesPath(), _databaseName);
-    openDatabase(
+    return await openDatabase(
       path,
       version: _databaseVersion,
-      onCreate: (db, version) => _onCreate,
+      onCreate: (db, version) => print("Database created successfully at $path")
     );
   }
 
-  Future _onCreate(Database db, int version) async {
+
+
+  Future<void> createTable(Function(String) onStatus) async {
+    Database db = await instance.database;
     await db.execute('''
         CREATE TABLE $_tableName (
         id TEXT PRIMARY KEY,
@@ -49,7 +51,34 @@ class DatabaseHelper {
         infoLink TEXT
       )
     ''');
+    onStatus("$_tableName got created!");
   }
+
+  Future<void> deleteTable(Function(String) onStatus) async {
+    Database db = await instance.database;
+    await db.execute('DROP TABLE IF EXISTS books');
+    onStatus("$_tableName got deleted!");
+  }
+
+  // Future _onCreate(Database db, int version) async {
+  //     await db.execute('''
+  //       CREATE TABLE $_tableName (
+  //       id TEXT PRIMARY KEY,
+  //       title TEXT NOT NULL,
+  //       authors TEXT NOT NULL,
+  //       favorite INTEGER DEFAULT 0,
+  //       publisher TEXT,
+  //       publishedDate TEXT,
+  //       description TEXT,
+  //       industryIdentifiers TEXT,
+  //       pageCount INTEGER,
+  //       language TEXT,
+  //       imageLinks TEXT,
+  //       previewLink TEXT,
+  //       infoLink TEXT
+  //     )
+  //   ''');
+  // }
 
   Future<int> insert(Book book) async {
     Database db = await instance.database;
@@ -59,7 +88,21 @@ class DatabaseHelper {
   Future<List<Book>> readAll() async {
     Database db = await instance.database;
     var books = await db.query(_tableName);
-    return books.isNotEmpty ? books.map((bookData) 
-    => Book.fromJson(bookData)).toList() : [];
+    return books.isNotEmpty
+        ? books.map((bookData) => Book.fromJson(bookData)).toList()
+        : [];
+  }
+
+  Future<void> showTable(Function(String) onStatus) async {
+    Database db = await instance.database;
+    var result = await db.rawQuery(''' SELECT COUNT(*) FROM $_tableName; ''');
+    onStatus(result.toString());
+  }
+
+  Future<void> deleteDb(Function(String) onStatus) async {
+    String path = join(await getDatabasesPath(), _databaseName);
+    await deleteDatabase(path);
+    _database = null;
+    onStatus("Database deleted!");
   }
 }
